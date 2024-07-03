@@ -13,6 +13,11 @@
             name = "boot";
             size = "1M";
             type = "EF02";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/boot";
+            };
           };
           #esp = {
           #  name = "ESP";
