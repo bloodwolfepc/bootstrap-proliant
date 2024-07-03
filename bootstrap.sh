@@ -1,10 +1,10 @@
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/bootstrap/disko.nix --arg device '"/dev/sda"'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/bootstrap-proliant/disko.nix --arg device '"/dev/sda"'
 
 nixos-generate-config --no-filesystems --root /mnt
 
 cd /mnt/etc/nixos
 rm configuration.nix
-cp -r /tmp/bootstrap/* ./
+cp -r /tmp/bootstrap-proliant/* ./
 
 cd
 nixos-install --root /mnt --flake /mnt/etc/nixos#default
