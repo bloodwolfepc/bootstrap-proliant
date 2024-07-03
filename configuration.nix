@@ -12,7 +12,7 @@
   boot.loader.grub.gfxmodeBios= "text";
   programs.fuse.userAllowOther = true;
   #networking.networkmanager.enable = true;
-  networking.useDHCP.enable = true;
+  networking.useDHCP = true;
   
   system.stateVersion = "23.11";
 
