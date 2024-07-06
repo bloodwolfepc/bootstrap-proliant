@@ -1,4 +1,4 @@
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/bootstrap-proliant/disko.nix --arg device '"/dev/sdb"'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/bootstrap-proliant/disko.nix --arg device '"/dev/sdc"'
 
 nixos-generate-config --no-filesystems --root /mnt
 
