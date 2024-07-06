@@ -1,5 +1,5 @@
 {
-  device ? throw "Set this to your disk device, e.g. /dev/sda",
+  device ? throw "Set this to your disk device, e.g. /dev/sdb",
   ...
 }: {
   disko.devices = {
@@ -13,11 +13,11 @@
             name = "boot";
             size = "1M";
             type = "EF02";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/boot";
-            };
+            #content = {
+            #  type = "filesystem";
+            #  format = "ext4";
+            #  mountpoint = "/boot";
+            #};
           };
           #esp = {
           #  name = "ESP";
