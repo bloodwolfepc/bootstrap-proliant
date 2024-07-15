@@ -1,17 +1,39 @@
 { pkgs, lib, inputs, ... }: {
-  imports =
-    [
-      ./hardware-configuration.nix
-      inputs.sops-nix.nixosModules.sops
-    ];
-
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
-  #boot.loader.grub.gfxmodeEfi= "text";
-  boot.loader.grub.enable = true;
-  boot.loader.grub.gfxmodeBios= "text";
+  imports = [
+    ./hardware-configuration.nix
+    inputs.sops-nix.nixosModules.sops
+  ];
+  filesystems = {
+    "/" = {
+      device = "/dev/mapper/root_vg-root";
+      fsType = "btrfs";
+      options = [ "defaults" "compress-force=zstd" "noatime" "ssd" "subvol=root" ]; 
+      neededForBoot = true;
+    };
+    "/nix" = {
+      device = "dev/mapper/root_vg-root";
+      fsType = "btrfs";
+      options = [ "defaults" "compress-force=zstd" "noatime" "ssd" "subvol=nix" ]; 
+      neededForBoot = true;
+    };
+    "/persist" = {
+      device = "dev/mapper/root_vg-root";
+      fsType = "btrfs";
+      options = [ "defaults" "compress-force=zstd" "noatime" "ssd" "subvol=persist" ]; 
+      neededForBoot = true;
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/F511-1DCD";
+      fsType = "vfat";
+    };
+  };
+  boot.loader.grub = {
+    enable = true;
+    gfxmodeEfi= "text";
+    gfxmodeBios= "text";
+    device = "/dev/disk/by-id/ata-T-FORCE_240GB_TPBF2312190010101467";
+  };
   programs.fuse.userAllowOther = true;
-  #networking.networkmanager.enable = true;
   networking.useDHCP = true;
   
   system.stateVersion = "23.11";
