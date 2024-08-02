@@ -59,9 +59,13 @@
   };
   #keygen
   services.openssh = {
+    authorizedKeys.keys = [
+      (builtins.readFile ./keys/id_angel.pub)
+    ];
     enable = true;
     settings = {
-      PasswordAuthentication = true;
+      #PasswordAuthentication = true;
+      PermitrootLogin = true;
     };
     hostKeys = [
       {
