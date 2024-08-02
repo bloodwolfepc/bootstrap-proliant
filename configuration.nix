@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
     inputs.sops-nix.nixosModules.sops
   ];
-  filesystems = {
+  fileSystems = {
     "/" = {
       device = "/dev/mapper/root_vg-root";
       fsType = "btrfs";
@@ -11,13 +11,13 @@
       neededForBoot = true;
     };
     "/nix" = {
-      device = "dev/mapper/root_vg-root";
+      device = "/dev/mapper/root_vg-root";
       fsType = "btrfs";
       options = [ "defaults" "compress-force=zstd" "noatime" "ssd" "subvol=nix" ]; 
       neededForBoot = true;
     };
     "/persist" = {
-      device = "dev/mapper/root_vg-root";
+      device = "/dev/mapper/root_vg-root";
       fsType = "btrfs";
       options = [ "defaults" "compress-force=zstd" "noatime" "ssd" "subvol=persist" ]; 
       neededForBoot = true;
@@ -35,6 +35,7 @@
   };
   programs.fuse.userAllowOther = true;
   networking.useDHCP = true;
+  boot.initrd.systemd.enable = true;
   
   system.stateVersion = "23.11";
 
@@ -42,6 +43,9 @@
     isNormalUser = true;
     initialPassword = "12345";
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = [
+      (builtins.readFile ./keys/id_angel.pub)
+    ];
   };
 
   #Yubikey
@@ -59,13 +63,10 @@
   };
   #keygen
   services.openssh = {
-    authorizedKeys.keys = [
-      (builtins.readFile ./keys/id_angel.pub)
-    ];
     enable = true;
     settings = {
       #PasswordAuthentication = true;
-      PermitrootLogin = true;
+      #PermitRootLogin = "yes";
     };
     hostKeys = [
       {
