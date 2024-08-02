@@ -24,8 +24,8 @@
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        inputs.disko.nixosModules.default
-        (import ./disko.nix { device = "/dev/sda"; })
+        #inputs.disko.nixosModules.default
+        #(import ./disko.nix { device = "/dev/sda"; })
         ./configuration.nix       
         inputs.home-manager.nixosModules.default
         # inputs.impermanence.nixosModules.impermanence 
